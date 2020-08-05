@@ -27,6 +27,13 @@ app.get("/api/timestamp/:date_string?", function (req, res) {
 	const dateString = req.params.date_string
 	const unix = Number(dateString)
 
+	if (dateString == undefined) {
+		return res.json({
+			unix: new Date().getTime(),
+			utc: new Date().toUTCString(),
+		})
+	}
+
 	if (unix) {
 		const date = new Date(unix).toUTCString()
 		if (!date) return res.json({ error: "Invalid Date" })
@@ -44,10 +51,10 @@ app.get("/api/timestamp/:date_string?", function (req, res) {
 })
 
 //listen for requests :)
-var listener = app.listen(process.env.PORT, function () {
-	console.log("Your app is listening on port " + listener.address().port)
-})
-
-// app.listen(3000, () => {
-// 	console.log("server on port " + 3000)
+// var listener = app.listen(process.env.PORT, function () {
+// 	console.log("Your app is listening on port " + listener.address().port)
 // })
+
+app.listen(3000, () => {
+	console.log("server on port " + 3000)
+})
